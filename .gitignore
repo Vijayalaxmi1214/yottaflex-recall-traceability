@@ -1,0 +1,24 @@
+
+# Python virtual environment
+.venv/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Generated datasets and reports
+output/
+output_test/
+output_full/
+output_check/
+
+# Local environment files
+.env
+
+# Backup files
+backup/
+
+# Local validation reports
+yottaflex_validation_errors.csv
+yottaflex_validation_errors.json
+yottaflex_validation_errors_report.txt
