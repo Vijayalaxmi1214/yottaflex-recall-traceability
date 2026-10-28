@@ -1,0 +1,20 @@
+{
+  "year": 2026,
+  "default_seed": 20261027,
+  "scales": {
+    "small": {
+      "suppliers": 8,
+      "raw_lots": 40,
+      "production_orders": 20,
+      "finished_lots": 32,
+      "deliveries": 80
+    },
+    "full": {
+      "suppliers": 500,
+      "raw_lots": 10000,
+      "production_orders": 5000,
+      "finished_lots": 8000,
+      "deliveries": 20000
+    }
+  }
+}

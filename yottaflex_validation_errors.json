@@ -1,0 +1,31 @@
+{
+  "summary": {
+    "valid": true,
+    "total_issues": 1,
+    "error_count": 0,
+    "warning_count": 1
+  },
+  "errors": [],
+  "warnings": [
+    {
+      "issue_id": "WARN-0001",
+      "severity": "WARNING",
+      "error_type": "report_missing_customer_relationship",
+      "category": "missing_relationship",
+      "table": "recall_cases",
+      "entity_id": "REC-2026-000001",
+      "details": "Recall case REC-2026-000001 has affected deliveries but lacks downstream customer recall actions"
+    }
+  ],
+  "issues": [
+    {
+      "issue_id": "WARN-0001",
+      "severity": "WARNING",
+      "error_type": "report_missing_customer_relationship",
+      "category": "missing_relationship",
+      "table": "recall_cases",
+      "entity_id": "REC-2026-000001",
+      "details": "Recall case REC-2026-000001 has affected deliveries but lacks downstream customer recall actions"
+    }
+  ]
+}

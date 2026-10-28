@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.py[cod]
+.env
+
+output/
+output_test/
+output_full/
+output_check/
+output_frontend/
+
+backup/
+
+yottaflex_validation_errors.csv
+yottaflex_validation_errors.json
+yottaflex_validation_errors_report.txt

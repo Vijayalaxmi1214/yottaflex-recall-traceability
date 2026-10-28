@@ -1,0 +1,27 @@
+================================================================================
+                    YOTTAFLEX VALIDATION ERRORS REPORT
+================================================================================
+Validation Result : PASSED (Clean)
+Total Issues      : 1
+  - Errors        : 0
+  - Warnings      : 1
+--------------------------------------------------------------------------------
+SUMMARY BY CATEGORY:
+  * Missing Relationship               : 1
+--------------------------------------------------------------------------------
+DETAILED ERROR LIST:
+--------------------------------------------------------------------------------
+  (No validation errors detected)
+--------------------------------------------------------------------------------
+DETAILED WARNING LIST:
+--------------------------------------------------------------------------------
+[WARN-0001] REPORT_MISSING_CUSTOMER_RELATIONSHIP
+  Severity : WARNING
+  Category : missing_relationship
+  Table    : recall_cases
+  Entity ID: REC-2026-000001
+  Details  : Recall case REC-2026-000001 has affected deliveries but lacks downstream customer recall actions
+
+================================================================================
+                              END OF REPORT
+================================================================================
