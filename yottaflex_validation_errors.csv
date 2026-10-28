@@ -1,0 +1,2 @@
+issue_id,severity,error_type,category,table,entity_id,details
+WARN-0001,WARNING,report_missing_customer_relationship,missing_relationship,recall_cases,REC-2026-000001,Recall case REC-2026-000001 has affected deliveries but lacks downstream customer recall actions

@@ -1,63 +1,87 @@
+# YottaFlex — Supply Chain Traceability and Product Recall Dashboard
 
-# YottaFlex Recall Traceability System
-
-A deterministic synthetic-data generator and product-recall simulation built for the YottaFlex.ai coding challenge.
-
-The project generates supply-chain traceability records, validates entity relationships and quantities, injects known anomalies, and simulates downstream product-recall analysis.
+A Python-based synthetic supply chain traceability system that generates linked supply chain data, validates data integrity, traces affected customers and deliveries, and supports product recall analysis through a Streamlit dashboard.
 
 ## Features
 
-- Reproducible synthetic supply-chain data using a configurable random seed.
-- Supplier, material-lot, product, bill-of-materials, production, finished-lot, customer, shipment, and delivery records.
-- Validation of foreign-key relationships, quantities, and recall-related constraints.
-- Four deliberately injected anomalies with corresponding ground-truth labels.
-- Recall analysis identifying affected finished lots, deliveries, and customers.
-- CSV and JSON output files with a manifest containing row counts and SHA-256 checksums.
-- Automated unit tests for generation, identifiers, validation, and recall calculations.
+- **Synthetic data generation:** Generates linked suppliers, material lots, products, bills of materials (BOMs), production orders, finished lots, customers, shipments, and deliveries.
+- **Traceability:** Connects production inputs to finished lots and downstream shipments and deliveries.
+- **Data validation:** Detects foreign-key violations, quantity reconciliation failures, missing customer relationships, and quarantine violations.
+- **Recall analysis:** Identifies affected customers and deliveries and calculates unrecovered delivered quantities.
+- **Anomaly injection:** Adds controlled data anomalies to test validation and recall workflows.
+- **Streamlit dashboard:** Provides an interactive interface for overview metrics, validation results, recall analysis, and data exploration.
+- **Reproducibility:** Supports seeded data generation for repeatable results.
+- **Automated tests:** Includes unit tests for identifiers, data generation, recall logic, and validation.
+
+## Project Structure
+
+```text
+yottaflex/
+├── app.py
+├── config.json
+├── requirements.txt
+├── README.md
+├── src/
+│   ├── __init__.py
+│   ├── id_generator.py
+│   ├── models.py
+│   ├── data_generator.py
+│   ├── validators.py
+│   ├── recall_engine.py
+│   ├── exporter.py
+│   ├── metrics.py
+│   └── main.py
+└── tests/
+    ├── test_ids.py
+    ├── test_generator.py
+    ├── test_recall.py
+    └── test_validation.py
+```
 
 ## Requirements
 
-- Python 3.9 or later, as tested in the development environment.
-- No third-party packages are required for the core project.
+- Python 3.9 or later
+- pip
+- Git
+- Streamlit for the dashboard
 
-## Quick Start — Windows
+Install the dependencies:
 
-Open a terminal in the project directory:
-
-```powershell
-cd F:\yottaflex
+```bash
+pip install -r requirements.txt
 ```
 
-Create and activate a virtual environment:
+## Run the Application
 
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
+### 1. Launch the Streamlit dashboard
+
+From the project root directory, run:
+
+```bash
+streamlit run app.py
 ```
 
-Generate a small dataset:
+Open the local URL displayed in the terminal.
 
-```powershell
-python -m src.main --scale small --seed 20261027
-```
+### 2. Generate the full synthetic dataset
 
-If PowerShell blocks environment activation, run the project using the virtual environment's Python executable or your installed Python interpreter.
-
-## Generate the Full Dataset
-
-Run the challenge-scale generator with the fixed seed and four deliberate anomalies:
-
-```powershell
+```bash
 python -m src.main --scale full --seed 20261027 --inject-anomalies --output output_full
 ```
 
-The output directory contains CSV files for generated entities and relationships, along with JSON reports.
+The command generates the full dataset with controlled anomalies for testing validation and recall functionality.
 
-## Dataset Size
+### 3. Run the automated tests
 
-The verified full-scale run produced the following counts:
+```bash
+python -m unittest discover -s tests -v
+```
 
-| Dataset | Rows |
+## Full Dataset Summary
+
+The verified full-scale run generated the following records:
+
+| Entity or relationship | Record count |
 |---|---:|
 | Suppliers | 500 |
 | Material lots | 10,000 |
@@ -73,85 +97,57 @@ The verified full-scale run produced the following counts:
 | Deliveries | 20,001 |
 | Recall cases | 1 |
 | Recall actions | 2 |
-| Ground-truth issues | 4 |
-| **Total entity and relationship rows** | **94,522** |
+| Ground-truth anomaly labels | 4 |
 
-## Injected Anomalies
+The entity and relationship tables contain **94,522 total rows**.
 
-The challenge run injects four known issues:
+## Validation and Anomaly Testing
 
-1. **Missing input lot:** a production input references a material lot that does not exist.
-2. **Quantity reconciliation failure:** delivered quantity exceeds the quantity produced for the affected finished lot.
-3. **Missing downstream customer relationship:** the recall report is missing a required customer relationship.
-4. **Quarantine violation:** an action indicates that recalled inventory is available for sale.
+The anomaly-injected dataset was tested for the following conditions:
 
-The ground-truth labels are exported separately in `ground_truth.csv`. Validation findings are written to `validation_report.json`.
+1. **Foreign-key violation:** A production input references a missing material lot.
+2. **Quantity reconciliation failure:** Delivered quantity exceeds the associated production quantity.
+3. **Missing customer relationship:** A recall report omits a downstream customer relationship.
+4. **Quarantine violation:** Recalled inventory remains available for sale.
 
-An invalid validation report is expected when deliberate anomalies are enabled.
+The full anomaly-injected validation run reported **3 errors and 1 warning**.
 
-## Recall Simulation
+## Recall Analysis Results
 
-The recall simulation follows the generated traceability relationships to identify affected finished lots, deliveries, and customers.
+The verified full-scale recall analysis reported:
 
-The verified full-scale run reported:
+- **Affected customers:** 4
+- **Affected deliveries:** 4
+- **Unrecovered delivered quantity:** 16
 
-- Affected customers: 4
-- Affected deliveries: 4
-- Unrecovered delivered quantity: 16
-
-These figures correspond to the run using seed `20261027` and the current dataset configuration.
-
-## Generated Outputs
-
-The output directory includes:
-
-- Entity and relationship CSV files.
-- `ground_truth.csv` — labels for injected anomalies.
-- `validation_report.json` — validation errors, warnings, and overall validity.
-- `recall_report.json` — recall findings and affected downstream records.
-- `metrics.json` — generated table counts and aggregate metrics.
-- `manifest.json` — file metadata, row counts, and SHA-256 checksums, as implemented by the exporter.
-
-## Run Tests
-
-Run the complete unit-test suite:
-
-```powershell
-python -m unittest discover -s tests -v
-```
-
-The verified test run passed all 10 tests, covering:
-
-- Baseline dataset counts.
-- Fixed-seed reproducibility.
-- Identifier formats.
-- Recall report fields.
-- Unrecovered-quantity calculations.
-- Detection of injected anomalies.
-- Clean-data validation.
-- Invalid foreign-key detection.
-- Negative-quantity detection.
-- Ground-truth anomaly detection.
+These values describe the recorded full-scale test run and its generated synthetic data.
 
 ## Reproducibility
 
-Use the same seed, scale, anomaly setting, and configuration to reproduce the same output.
+Use a fixed random seed to reproduce the generated dataset:
 
-The full-scale output generated with seed `20261027` was compared against a second run. All 19 output files matched byte-for-byte, with zero mismatches and zero extra files.
+```bash
+python -m src.main --scale full --seed 20261027 --inject-anomalies --output output_full
+```
 
-## Design Notes
+The reproducibility check compared 19 generated files and found no mismatches or unexpected extra files.
 
-- IDs are deterministic for a fixed seed and generation order.
-- Relationships reference entity IDs rather than comma-separated lists.
-- Derived totals are calculated from generated source records.
-- Baseline records are generated before deliberate anomalies are injected.
-- Ground-truth labels are stored separately from ordinary entity data.
-- The dataset is synthetic and is not real company data.
+## Testing
 
-## Important
+Run the test suite:
 
-The full dataset contains many records and may take longer to generate. Start with the small scale to inspect the output and reports before generating the full dataset.
-=======
-# yottaflex-recall-traceability
-Synthetic Supply Chain Traceability and Product Recall Dashboard
->>>>>>> 8d40355db70d4ac6b565d2f68bfe17d84522ed3d
+```bash
+python -m unittest discover -s tests -v
+```
+
+The verified test run passed **10 out of 10 tests**.
+
+## Notes
+
+- This project uses synthetic data; it does not represent real suppliers, customers, or shipments.
+- Anomaly injection is intended for testing data validation and recall workflows.
+- Generated output folders and the Python virtual environment should not be committed to Git.
+
+## License
+
+Add the license details here if a license is selected for this project.
