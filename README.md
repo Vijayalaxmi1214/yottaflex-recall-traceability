@@ -1,3 +1,4 @@
+
 # YottaFlex Recall Traceability System
 
 A deterministic synthetic-data generator and product-recall simulation built for the YottaFlex.ai coding challenge.
@@ -150,3 +151,7 @@ The full-scale output generated with seed `20261027` was compared against a seco
 ## Important
 
 The full dataset contains many records and may take longer to generate. Start with the small scale to inspect the output and reports before generating the full dataset.
+=======
+# yottaflex-recall-traceability
+Synthetic Supply Chain Traceability and Product Recall Dashboard
+>>>>>>> 8d40355db70d4ac6b565d2f68bfe17d84522ed3d
